@@ -240,7 +240,7 @@
       <div class="contact-flex">
         <p class="paragraph contact-text cta-paragraph">If you have a project or an idea, please get in touch. <br>If we are a good fit we can quote on cost and timeline</p>
         <div class="form-block w-form">
-          <form id="email-form" name="email-form" data-name="Email Form" action="https://formspree.io/f/xdovroag" method="POST" class="form"><input type="email" class="text-field shadow w-input" maxlength="256" name="field" data-name="Field" placeholder="Email" id="field" required=""><input type="submit" value="b" data-wait="b" class="arrow-button w-button"><p id="my-form-status"></p></form>
+          <form id="email-form" name="email-form" data-name="Email Form" action="https://formspree.io/f/xdovroag" method="POST" class="form"><input type="email" class="text-field shadow w-input" maxlength="256" name="field" data-name="Field" placeholder="Email" id="field" required=""><input type="submit" value="b" data-wait="b" class="arrow-button w-button"></form>
           <div class="success-message w-form-done">
             <div class="text-block-5">Thank you! We&#x27;ll be in touch soon.</div>
           </div>
@@ -383,37 +383,32 @@ prevButton.addEventListener('click', showPrev);
 nextButton.addEventListener('click', showNext);
 </script>
 
+<form id="email-form" name="email-form" data-name="Email Form" action="https://formspree.io/your_formspree_email" method="POST" class="form">
+  <input type="email" class="text-field shadow w-input" maxlength="256" name="_replyto" placeholder="Email" required>
+  <input type="submit" value="Submit" class="arrow-button w-button">
+</form>
+
 <script>
   var form = document.getElementById("email-form");
-  
-  async function handleSubmit(event) {
-    event.preventDefault();
-    var status = document.getElementById("my-form-status");
-    var data = new FormData(event.target);
-    fetch(event.target.action, {
-      method: form.method,
-      body: data,
-      headers: {
-          'Accept': 'application/json'
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(form.method, form.action, true);
+    xhr.setRequestHeader("Accept", "application/json");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        // Handle the successful form submission here
+        // For example, show a success message or perform other actions
+        console.log("Form submitted successfully!");
       }
-    }).then(response => {
-      if (response.ok) {
-        status.innerHTML = "Thanks for your submission!";
-        form.reset()
-      } else {
-        response.json().then(data => {
-          if (Object.hasOwn(data, 'errors')) {
-            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
-          } else {
-            status.innerHTML = "Oops! There was a problem submitting your form"
-          }
-        })
-      }
-    }).catch(error => {
-      status.innerHTML = "Oops! There was a problem submitting your form"
-    });
-  }
-  form.addEventListener("submit", handleSubmit)
+    };
+
+    xhr.send(new FormData(form));
+  });
 </script>
+
 </body>
 </html>
