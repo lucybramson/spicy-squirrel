@@ -385,30 +385,6 @@ nextButton.addEventListener('click', showNext);
 
 <script>
 // Formspree submission
-/* before change
-  var form = document.getElementById("email-form");
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission
-
-    var xhr = new XMLHttpRequest();
-    xhr.open(form.method, form.action, true);
-    xhr.setRequestHeader("Accept", "application/json");
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        // Handle the successful form submission here
-        // For example, show a success message or perform other actions
-        console.log("Form submitted successfully!");
-      }
-    };
-
-    xhr.send(new FormData(form));
-  }); */
-  
-//new for code w/succcess/error messages
-
-  // Formspree submission
   var form = document.getElementById("email-form");
   var successMessage = document.getElementById("success-message");
   var errorMessage = document.getElementById("error-message");
