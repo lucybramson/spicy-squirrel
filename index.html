@@ -241,10 +241,10 @@
         <p class="paragraph contact-text cta-paragraph">If you have a project or an idea, please get in touch. <br>If we are a good fit we can quote on cost and timeline</p>
         <div class="form-block w-form">
           <form id="email-form" name="email-form" data-name="Email Form" action="https://formspree.io/f/xdovroag" method="POST" class="form"><input type="email" class="text-field shadow w-input" maxlength="256" name="field" data-name="Field" placeholder="Email" id="field" required=""><input type="submit" value="b" data-wait="b" class="arrow-button w-button"></form>
-          <div class="success-message w-form-done">
+          <div id="success-message" class="success-message w-form-done">
             <div class="text-block-5">Thank you! We&#x27;ll be in touch soon.</div>
           </div>
-          <div class="error-message w-form-fail">
+          <div id="error-message@" class="error-message w-form-fail">
             <div>Oops! Something went wrong while submitting the form.</div>
           </div>
         </div>
@@ -384,6 +384,8 @@ nextButton.addEventListener('click', showNext);
 </script>
 
 <script>
+// Formspree submission
+/* before change
   var form = document.getElementById("email-form");
 
   form.addEventListener("submit", function (event) {
@@ -402,7 +404,45 @@ nextButton.addEventListener('click', showNext);
     };
 
     xhr.send(new FormData(form));
+  }); */
+  
+//new for code w/succcess/error messages
+
+  // Formspree submission
+  var form = document.getElementById("email-form");
+  var successMessage = document.getElementById("success-message");
+  var errorMessage = document.getElementById("error-message");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(form.method, form.action, true);
+    xhr.setRequestHeader("Accept", "application/json");
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          // Handle the successful form submission here
+          // For example, show a success message or perform other actions
+          successMessage.style.display = "block";
+          errorMessage.style.display = "none";
+          console.log("Form submitted successfully!");
+        } else {
+          // Handle the error case here
+          // For example, show an error message or perform other actions
+          successMessage.style.display = "none";
+          errorMessage.style.display = "block";
+          console.log("Form submission failed.");
+        }
+      }
+    };
+
+    xhr.send(new FormData(form));
   });
+</script>
+
+
 </script>
 
 </body>
